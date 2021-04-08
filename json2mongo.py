@@ -93,7 +93,10 @@ def parse_content(json_content: Union[dict, list, tuple]) -> Union[dict, list, t
 
     parsed_item = dict()
     for key, value in json_content.items():
-        parsed_item[key] = parse_value_tokens(value, json_content, parsed_item)
+        if isinstance(value, (tuple, list)):
+            parsed_item[key] = parse_content(value)
+        else:
+            parsed_item[key] = parse_value_tokens(value, json_content, parsed_item)
 
     return parsed_item
 
